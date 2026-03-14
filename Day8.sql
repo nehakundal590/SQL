@@ -1,42 +1,31 @@
-use world;
-select * from country;
-select name , continent,population from country;
+select* from payment;
+select customer_list from payment group by customer_id;
+select staff_id from payment group by staff_id;
+-- group by  is used to apply on similar values are group of values
+select customer_id from payment group by payment_id;
 
-select sum(population ) from country;
-select sum(population) from country where continent ='Asia';
-select continent ,sum(population) from country group by continent;
+select sum(amount) from payment where customer_id=1;
+select sum(amount) from payment where customer_id=3;
 
-select * from  country;
-select region,sum(population) from country group by continent;
-select * from country;
-select  continent,region,sum(population) from country group by continent,region;
--- in every continent what country;
-select continent ,count(name) from country group by continent;
-select* from country;
--- har sal kitni country indepeend hoti h
-select indepyear,count(name) from country group by indepyear;
---  findout how many country got independent for each year in each continent
-select  continent,Indepyear, count(name) from country group by continent,Indepyear;
--- continent name atleast 30 country
-select continent ,count(name)as totalCountry from country 
- group by continent  having totalCountry>30  ;
- -- where always use group by se phle use hoge
- -- where clause always filter that exist in table
- -- where clause executed first
- -- where clause generally are not used on aggregate function
- -- Having clause --- is used to filter the rows based on aggregate function ex count(name)
- -- having clause without group by not used
- -- having always used after groupby
- -- difference b/w having and group by
- 
- -- you need to find thhe continent name and  average population only for those continent where the average 
- -- average population is greater than 0.5 million. 5 lakh
- 
-  -- select continent ,avg(population)  from country group by continent having avgpopulation>5000;
- -- get me the average popultion,total number of country is for each government form only for the country got independent after 
- -- 1890 and have atleast 4 country 
- select  Governmentform,avg(population)  as avgpopulation ,count(name) as totalcountry from country where IndepYear>1890 group by 
- GovernmentForm having count(name)>=4;[
- 
- 
- 
+select customer_id , sum(amount) ,count(customer_id) from payment group by customer_id;
+-- group by is a statements
+select sum(amount) from payment where staff_id=1;
+select sum(amount) from payment where staff_id=2;
+
+select staff_id,sum(amount) from payment group by staff_id;
+select count(*) ,sum(amount)from payment where payment_id=3;
+select payment_id ,count(*),sum(amount) payment group by payment_id;
+
+-- total amount
+-- max amount
+-- total number of customer served by staff
+select staff_id,sum(amount),max(amount),count(customer_id) from payment  where payment_id>9 group by staff_id;
+
+select month(payment_date),sum(amount),avg(amount),count(customer_id) from payment
+group by month(payment_date);
+
+-- select *, month(payment_date) from payment where month(payment_date) in(5,6,7);
+
+select month(payment_date),sum(amount),avg(amount),max(amount) from payment
+where amount(payment_date)in(5,6,7) and day(payment_date) between 7 and 14
+group by month(payment_date);
